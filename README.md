@@ -1,6 +1,8 @@
 # Sogyo assisgment
 
-This is an assignment I did during my application process at Sogyo, where I had to make a programming assignment.
+This is an assignment I did during my application process at Sogyo, where I had to build a Tic Tac Toe game in Python.
+
+<img src="tic-tac-toe.gif">
 
 ## Assisgnment
 Write an implementation in Python for the tic tac toe game.
