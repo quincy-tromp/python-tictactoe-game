@@ -8,7 +8,7 @@ class TicTacToe():
         self.player_2 = '⭕️'
         self.turn_count = 0
         self.player_turn_number = 1
-        self.play_game = True
+        self.start_game = True
         self.game_over = False
         self.logo = art.logo
         self.lost = art.lost
@@ -16,6 +16,7 @@ class TicTacToe():
         self.won = art.won
         
     def display_board(self):
+        '''Displays gameboard.'''
         print(f"\n{self.board[1]} | {self.board[2]} | {self.board[3]}")
         print("------------")
         print(f"{self.board[4]} | {self.board[5]} | {self.board[6]}")
@@ -23,6 +24,7 @@ class TicTacToe():
         print(f"{self.board[7]} | {self.board[8]} | {self.board[9]}")
 
     def next_player_turn(self):
+        '''Updates turn_count and player_turn_number.'''
         self.turn_count += 1
 
         if self.turn_count % 2 == 0:
@@ -31,33 +33,40 @@ class TicTacToe():
             self.player_turn_number = 1
     
     def who_turn(self):
+        '''Returns player/mark who's turn it is.'''
         if self.player_turn_number == 1:
             return self.player_1
         else:
             return self.player_2
         
-    def player_choice(self):
-        return int(input(f"\nPlayer {self.player_turn_number}, Choose a position: "))
-        
-    def rule_check(self):
-        choice = self.player_choice()
-        while choice < 1 or choice > 9:
+    def player_choose_position(self):
+        '''Returns player's chosen position, when valid.'''
+        player_choice = (input(f"\nPlayer {self.player_turn_number}, Choose a position: ")).replace(" ", "")
+  
+        while player_choice == "":
+            player_choice = (input(f"\nPlayer {self.player_turn_number}, Choose a position: ")).replace(" ", "")
+        player_choice = int(player_choice)
+
+        while player_choice < 1 or player_choice > 9:
             print("Invalid position. Try again.")
-            choice = self.player_choice()
-        while self.board[choice] != '  ':
+            player_choice = self.player_choose_position()
+
+        while self.board[player_choice] != '  ':
             print("This position is already taken. Try again.")
-            choice = self.player_choice()
-        return choice
-    
+            player_choice = self.player_choose_position()
+        return player_choice
+
     def player_move(self):
+        '''Fills in player's mark at chosen position.'''
         self.next_player_turn()
         
         if self.player_turn_number == 1:
-            self.board[self.rule_check()] = self.player_1
+            self.board[self.player_choose_position()] = self.player_1
         else:
-            self.board[self.rule_check()] = self.player_2
+            self.board[self.player_choose_position()] = self.player_2
             
     def win_check(self):
+        '''Returns True if there's 3 marks in a row.'''
         player = self.who_turn()
         if ((self.board[1] == player and self.board[2] == player and self.board[3] == player) or 
         (self.board[4] == player and self.board[5] == player and self.board[6] == player) or
@@ -73,15 +82,18 @@ class TicTacToe():
             return True
         
     def tie_check(self):
+        '''Returns True if it's a tie / no available positions to play.'''
         if '  ' not in self.board:
             print(f"\n{self.tie}")
             return True
         
     def want_to_play(self):
+        '''Returns True if player wants to play again.'''
         play_again = input("Do you want to play again? Type 'y' to continue, press anything else to exit: ").lower()
         return play_again == 'y'
     
     def game_intro(self):
+        '''Prints introduction to the game.'''
         print(self.logo)
         print("Welcome to Tic Tac Toe.")
         print("The first player to get 3 of her marks in a row is the winner.")
@@ -95,12 +107,14 @@ class TicTacToe():
         ''')
 
     def game_reset(self):
+        '''Resets the game'''
         self.game_over = False
         self.board = ['#', '  ', '  ', '  ', '  ', '  ', '  ', '  ', '  ', '  ']
 
-    def start_game(self):
+    def play_game(self):
+        '''Starts/ends the game.'''
         self.game_intro()
-        while self.play_game:
+        while self.start_game:
             self.game_reset()
             while not self.game_over:
                 self.player_move()
@@ -109,8 +123,8 @@ class TicTacToe():
                 if self.game_over:
                     break
                 self.game_over = self.tie_check()
-            self.play_game = self.want_to_play()
+            self.start_game = self.want_to_play()
+        print("Thanks for playing. 👋")
             
-
 new_game = TicTacToe()
-new_game.start_game()
+new_game.play_game()
