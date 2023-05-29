@@ -4,6 +4,7 @@ class TicTacToe():
     
     def __init__(self):
         self.board = ['#', '  ', '  ', '  ', '  ', '  ', '  ', '  ', '  ', '  ']
+        self.possible_positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         self.player_1 = '❌'
         self.player_2 = '⭕️'
         self.turn_count = 0
@@ -42,18 +43,17 @@ class TicTacToe():
     def player_choose_position(self):
         '''Returns player's chosen position, when valid.'''
         player_choice = (input(f"\nPlayer {self.player_turn_number}, Choose a position: ")).replace(" ", "")
-  
-        while player_choice == "":
-            player_choice = (input(f"\nPlayer {self.player_turn_number}, Choose a position: ")).replace(" ", "")
-        player_choice = int(player_choice)
-
-        while player_choice < 1 or player_choice > 9:
+        
+        while player_choice not in self.possible_positions:
             print("Invalid position. Try again.")
             player_choice = self.player_choose_position()
+        
+        player_choice = int(player_choice)
 
         while self.board[player_choice] != '  ':
             print("This position is already taken. Try again.")
             player_choice = self.player_choose_position()
+        
         return player_choice
 
     def player_move(self):
