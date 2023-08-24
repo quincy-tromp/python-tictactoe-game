@@ -1,4 +1,4 @@
-# Sogyo assisgment
+# Sogyo TicTacToe assisgment
 
 This is an assignment I did during my application process at Sogyo, where I had to build a Tic Tac Toe game in Python.
 
